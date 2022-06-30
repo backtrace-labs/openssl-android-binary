@@ -1,0 +1,18 @@
+if (NOT ANDROID)
+    message(FATAL_ERROR "Only Android is supported by this repository.")
+endif()
+
+add_library(openssl-android-binary INTERFACE)
+
+if (${ANDROID_ABI} STREQUAL "x86_64")
+    target_include_directories(openssl-android-binary INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/openssl-x86_64/include")
+    target_include_directories(openssl-android-binary INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/curl-x86_64/include")
+elseif(${ANDROID_ABI} STREQUAL "arm64-v8a")
+    target_include_directories(openssl-android-binary INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/openssl-arm64-v8a/include")
+    target_include_directories(openssl-android-binary INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/curl-arm64-v8a/include")
+elseif(${ANDROID_ABI} STREQUAL "armeabi-v7a")
+    target_include_directories(openssl-android-binary INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/openssl-armeabi-v7a/include")
+    target_include_directories(openssl-android-binary INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/curl-armeabi-v7a/include")
+else()
+    message(WARNING "${ANDROID_ABI} is not supported by the openssl-android-binary repository.")
+endif()
